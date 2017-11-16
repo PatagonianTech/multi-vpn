@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+BASE_SOURCE="$0"
+BASE_DIR="$(cd "$(dirname "$BASE_SOURCE")" ; pwd)"
+
+. "${BASE_DIR}/commons.sh"
+
+( cd "$BASE_DIR"
+  docker build -t ${CFG_DOCKER_IMG_NAME} .
+)
