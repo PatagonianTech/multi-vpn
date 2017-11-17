@@ -10,6 +10,8 @@ BASE_DIR="$(cd "$(dirname "$BASE_SOURCE")" ; pwd)"
 config_dir="$1" ; shift
 config_path="${BASE_DIR}/${config_dir}"
 
+[ -d "${config_path}" ] || @error "Invalid CONFIG_DIR: ${config_dir}"
+
 if [ -z "$*" ] ; then
   @warn "Usage: $0 ${config_dir} SSH_PARAMS/SSH_SERVER"
   if [ -f "${config_path}/ssh/config" ]; then

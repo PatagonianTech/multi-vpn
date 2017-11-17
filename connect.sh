@@ -12,6 +12,7 @@ config_path="${BASE_DIR}/${config_dir}"
 vpn_file_path="${config_path}/${VPN_FILE_NAME}"
 container_name="$(@dockerContainerName ${config_dir})"
 
+[ -d "${config_path}" ] || @error "Invalid CONFIG_DIR: ${config_dir}"
 [ -f "${vpn_file_path}" ] || @error "${vpn_file_path} not found"
 
 docker run -it --rm --privileged \
