@@ -6,9 +6,17 @@ Connect to multiple _VPNs_ (Only **OpenVPN**) at the same time.
 
 * [Docker](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/)
 
+## Setup
+
+Run:
+
+```bash
+.src/build.sh
+```
+
 ## Usage
 
-### Connect to a VPN
+### Connect to VPN
 
 ```bash
 ./connect.sh my-vpn
@@ -27,7 +35,7 @@ Connect to multiple _VPNs_ (Only **OpenVPN**) at the same time.
   ssh server1
 ```
 
-### Structure
+## Structure
 
 ```
 ROOT/
@@ -38,7 +46,7 @@ ROOT/
       config [OPTIONAL]
 ```
 
-#### Example
+### Example
 
 ```
 ROOT/

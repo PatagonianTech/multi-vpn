@@ -2,7 +2,8 @@ FROM ubuntu:16.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y openvpn ssh net-tools
+RUN apt-get update \
+  && apt-get install -y openvpn ssh net-tools iptables iputils-ping net-tools
 
 COPY run.sh /run.sh
 RUN chmod a+x /run.sh
