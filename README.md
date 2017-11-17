@@ -35,6 +35,20 @@ Run:
   ssh server1
 ```
 
+## Connect to VPN and forward ports
+
+For example, forward port `3000` from `server1` to `8081` local port:
+
+```bash
+# Local/host port: 8081
+# Container port: 8080
+./connect.sh vpn-name 8081:8080
+
+# Container port: 8080
+# Server port: 3000
+./ssh.sh vpn-name 8080:localhost:3000 server1
+```
+
 ## Structure
 
 ```
