@@ -40,7 +40,7 @@ Run:
 Connect to VPN network. You can connect to onaly one VPN network at the same time.
 
 ```bash
-./connect-net.sh my-vpn
+./net.sh my-vpn
 ```
 
 ## Structure
