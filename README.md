@@ -35,6 +35,14 @@ Run:
   ssh server1
 ```
 
+### Connect to VPN Network
+
+Connect to VPN network. You can connect to onaly one VPN network at the same time.
+
+```bash
+./connect-net.sh my-vpn
+```
+
 ## Structure
 
 ```
