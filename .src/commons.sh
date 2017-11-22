@@ -17,9 +17,6 @@ VPN_FILE_NAME='client.ovpn'
   echo "vpn-$k"
 }
 
-[ ! $IS_BUILD_SCRIPT ] && (
-  if [ -z "$(docker images -q ${CFG_DOCKER_IMG_NAME})" ]; then
-    cd "${BASE_DIR}/.src"
-    ./build.sh
-  fi
-)
+[ ! $IS_BUILD_SCRIPT ] && \
+  [ -z "$(docker images -q ${CFG_DOCKER_IMG_NAME})" ] && \
+  "${BASE_DIR}/.src/build.sh"
