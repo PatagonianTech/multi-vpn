@@ -2,6 +2,7 @@
 
 BASE_SOURCE="$0"
 BASE_DIR="$(cd "$(dirname "$BASE_SOURCE")" ; pwd)"
+IS_BUILD_SCRIPT=true
 
 . "${BASE_DIR}/commons.sh"
 

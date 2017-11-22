@@ -8,11 +8,7 @@ Connect to multiple _VPNs_ (Only **OpenVPN**) at the same time.
 
 ## Setup
 
-Run:
-
-```bash
-.src/build.sh
-```
+On first use, the `docker image` will be builded.
 
 ## Usage
 
