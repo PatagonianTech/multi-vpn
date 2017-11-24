@@ -32,7 +32,8 @@ fi
 
 docker run -it --rm --privileged $docker_custom_cfg \
   -v "${config_path}:/vpn:ro" \
-  -v "${HOME}:/home/${USER}" \
+  -v "/home:/home" \
+  -v "/mnt:/mnt" \
   --name ${container_name} \
   --hostname ${container_name} \
   ${CFG_DOCKER_IMG_NAME} ${VPN_FILE_NAME}
