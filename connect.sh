@@ -18,11 +18,14 @@ docker_custom_cfg=''
 [ -f "${vpn_file_path}" ] || @error "${vpn_file_path} not found"
 
 if [[ "$config_extra" == *"-net"* ]]; then
+  echo "# CONNECTING HOST NETWORK TO VPN..."
+
   if [ "$(docker ps -a -q --filter volume=${CFG_DOCKER_HOST_LOCK_VOLUME})" ]
     then
       @error "You can connect to onaly one VPN network to host at the same time"
     fi
 
+  sleep 2
   docker_custom_cfg="$docker_custom_cfg --net=host"
   docker_custom_cfg="$docker_custom_cfg -v ${CFG_DOCKER_HOST_LOCK_VOLUME}:/tmp/vpn.host.lock"
 fi
