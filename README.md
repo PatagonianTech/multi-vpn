@@ -28,15 +28,18 @@ On first use, the `docker image` will be builded.
 
 ```bash
 ./bash.sh my-vpn
+  scp /home/myuser/file.txt server2:/tmp/file.txt
   ssh server1
 ```
 
 ### Connect to VPN Network
 
-Connect to VPN network. You can connect to onaly one VPN network at the same time.
+Connect host network to VPN network.
+
+**You can connect to onaly one VPN network to host at the same time.**
 
 ```bash
-./net.sh my-vpn
+./connect.sh my-vpn -net
 ```
 
 ## Structure
