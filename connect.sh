@@ -30,10 +30,14 @@ if [[ "$config_extra" == *"-net"* ]]; then
   docker_custom_cfg="$docker_custom_cfg -v ${CFG_DOCKER_HOST_LOCK_VOLUME}:/tmp/vpn.host.lock"
 fi
 
+file_bash_history="${config_path}/.bash_history"
+touch "${file_bash_history}"
+
 docker run -it --rm --privileged $docker_custom_cfg \
   -v "${config_path}:/vpn:ro" \
   -v "/home:/home" \
   -v "/mnt:/mnt" \
+  -v "${file_bash_history}:/root/.bash_history" \
   --name ${container_name} \
   --hostname ${container_name} \
   ${CFG_DOCKER_IMG_NAME} ${VPN_FILE_NAME}
