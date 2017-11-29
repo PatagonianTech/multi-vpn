@@ -21,4 +21,8 @@ if [ -z "$*" ] ; then
   exit 1
 fi
 
+# Scripts
+[ -f "${config_path}/${CFG_SCRIPTS_DIR}/pre-connect.sh" ] && \
+  docker exec -it $(@dockerContainerName ${config_dir}) ${CFG_SCRIPTS_DIR}/pre-connect.sh "$@"
+
 docker exec -it $(@dockerContainerName ${config_dir}) ssh "$@"
