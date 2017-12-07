@@ -5,7 +5,7 @@ BASE_DIR="$(cd "$(dirname "$BASE_SOURCE")" ; pwd)"
 
 . "${BASE_DIR}/.src/commons.sh"
 
-[ -z "$1" ] && @error "Usage: $0 CONFIG_DIR [-net]"
+[ -z "$1" ] && @error "Usage: [VPN_FILE_NAME=client.ovpn] $0 CONFIG_DIR [-net]"
 
 config_dir="$1" ; shift
 config_extra="$@"
@@ -32,6 +32,8 @@ fi
 
 file_bash_history="${config_path}/.bash_history"
 touch "${file_bash_history}"
+
+set -x
 
 docker run -it --rm --privileged $docker_custom_cfg \
   -v "${config_path}:/vpn:ro" \
