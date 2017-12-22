@@ -17,4 +17,4 @@ config_path="${BASE_DIR}/${config_dir}"
 [ -f "${config_path}/${CFG_SCRIPTS_DIR}/pre-connect.sh" ] && \
   docker exec -it $(@dockerContainerName ${config_dir}) bash -c "${CFG_SCRIPTS_DIR}/pre-connect.sh $*"
 
-docker exec -it $(@dockerContainerName ${config_dir}) su vpndeveloper /vpndeveloper.sh firefox
+docker exec -it $(@dockerContainerName ${config_dir}) su vpndeveloper /vpndeveloper.sh google-chrome-stable

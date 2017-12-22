@@ -42,6 +42,20 @@ Connect host network to VPN network.
 ./connect.sh my-vpn -net
 ```
 
+### Use a Browser into VPN
+
+#### Firefox
+
+```bash
+./firefox.sh my-vpn
+```
+
+#### Google Chrome
+
+```bash
+./chrome.sh my-vpn
+```
+
 ## Structure
 
 ```
