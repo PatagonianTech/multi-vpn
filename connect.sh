@@ -37,6 +37,7 @@ set -x
 
 docker run -it --rm --privileged $docker_custom_cfg \
   -v "${config_path}:/vpn:ro" \
+  -v "/var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket" \
   -v "/home:/home" \
   -v "/mnt:/mnt" \
   -v "${file_bash_history}:/root/.bash_history" \
