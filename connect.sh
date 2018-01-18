@@ -3,21 +3,29 @@
 BASE_SOURCE="$0"
 BASE_DIR="$(cd "$(dirname "$BASE_SOURCE")" ; pwd)"
 
+if [ -z "$1" ]; then
+  cat <<EOF
+Usage:
+  $BASE_SOURCE CONFIG_DIR[/VPN_FILE_NAME] [-net]
+      CONFIG_DIR      VPN configuration directory
+      VPN_FILE_NAME   OpenVPN file. Default: client.ovpn
+      -net            If present, connect host network to VPN
+
+Examples:
+  $BASE_SOURCE arg-prod
+  $BASE_SOURCE arg-prod/region2.ovpn
+  $BASE_SOURCE arg-qa -net
+  $BASE_SOURCE arg-qa/region3.ovpn -net
+EOF
+
+  exit 1
+fi
+
 . "${BASE_DIR}/.src/commons.sh"
-
-[ -z "$1" ] && @error "Usage: [VPN_FILE_NAME=client.ovpn] $0 CONFIG_DIR [-net]"
-
-config_dir="$1" ; shift
-config_extra="$@"
-config_path="${BASE_DIR}/${config_dir}"
-vpn_file_path="${config_path}/${VPN_FILE_NAME}"
-container_name="$(@dockerContainerName ${config_dir})"
+[ -f "${VPN_FILE_PATH}" ] || @error "${VPN_FILE_PATH} not found"
 docker_custom_cfg=''
 
-[ -d "${config_path}" ] || @error "Invalid CONFIG_DIR: ${config_dir}"
-[ -f "${vpn_file_path}" ] || @error "${vpn_file_path} not found"
-
-if [[ "$config_extra" == *"-net"* ]]; then
+if [[ "$CONFIG_EXTRA" == *"-net"* ]]; then
   echo "# CONNECTING HOST NETWORK TO VPN..."
 
   if [ "$(docker ps -a -q --filter volume=${CFG_DOCKER_HOST_LOCK_VOLUME})" ]
@@ -30,20 +38,20 @@ if [[ "$config_extra" == *"-net"* ]]; then
   docker_custom_cfg="$docker_custom_cfg -v ${CFG_DOCKER_HOST_LOCK_VOLUME}:/tmp/vpn.host.lock"
 fi
 
-file_bash_history="${config_path}/.bash_history"
+file_bash_history="${CONFIG_PATH}/.bash_history"
 touch "${file_bash_history}"
 
 set -x
 
 docker run -it --rm --privileged $docker_custom_cfg \
-  -v "${config_path}:/vpn:ro" \
+  -v "${CONFIG_PATH}:/vpn:ro" \
   -v "/var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket" \
   -v "/home:/home" \
   -v "/mnt:/mnt" \
   -v "${file_bash_history}:/root/.bash_history" \
-  -v "${config_path}/vpndeveloper:/home/vpndeveloper" \
+  -v "${CONFIG_PATH}/vpndeveloper:/home/vpndeveloper" \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   -e DISPLAY=$DISPLAY \
-  --name ${container_name} \
-  --hostname ${container_name} \
+  --name ${CONTAINER_NAME} \
+  --hostname ${CONTAINER_NAME} \
   ${CFG_DOCKER_IMG_NAME} ${VPN_FILE_NAME}

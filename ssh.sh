@@ -3,26 +3,36 @@
 BASE_SOURCE="$0"
 BASE_DIR="$(cd "$(dirname "$BASE_SOURCE")" ; pwd)"
 
-. "${BASE_DIR}/.src/commons.sh"
+err_msg="Usage:
+  $BASE_SOURCE CONFIG_DIR [SSH_PARAMS] [SSH_SERVER]
+      CONFIG_DIR   VPN configuration directory.
+      SSH_PARAMS   Parameters to use in 'ssh' command.
+      SSH_SERVER   SSH Parameters and SSH Server to connect.
+                   Skip it to see a SSH Servers list.
+"
 
-[ -z "$1" ] && @error "Usage: $0 CONFIG_DIR [SSH_PARAMS/SSH_SERVER]"
-
-config_dir="$1" ; shift
-config_path="${BASE_DIR}/${config_dir}"
-
-[ -d "${config_path}" ] || @error "Invalid CONFIG_DIR: ${config_dir}"
-
-if [ -z "$*" ] ; then
-  @warn "Usage: $0 ${config_dir} SSH_PARAMS/SSH_SERVER"
-  if [ -f "${config_path}/ssh/config" ]; then
-    @warn "SSH_SERVER:"
-    grep -E '^Host\s+[a-zA-Z0-9]' "${config_path}/ssh/config" | sed -E 's/Host\s+/  - /g'
-  fi
+if [ -z "$1" ]; then
+  echo "$err_msg"
   exit 1
 fi
 
-# Scripts
-[ -f "${config_path}/${CFG_SCRIPTS_DIR}/pre-connect.sh" ] && \
-  docker exec -it $(@dockerContainerName ${config_dir}) bash -c "${CFG_SCRIPTS_DIR}/pre-connect.sh $*"
+if [ -z "$2" ] ; then
+  if [ -f "$1/ssh/config" ]; then
+    err_msg="$err_msg
 
-docker exec -it $(@dockerContainerName ${config_dir}) ssh "$@"
+Current configured SSH Servers list (to use as SSH_SERVER):
+$(grep -E '^Host\s+[a-zA-Z0-9]' "$1/ssh/config" | sed -E 's/Host\s+/  - /g')
+"
+  fi
+
+  echo "$err_msg"
+  exit 1
+fi
+
+. "${BASE_DIR}/.src/commons.sh"
+
+# Scripts
+[ -f "${CONFIG_PATH}/${CFG_SCRIPTS_DIR}/pre-connect.sh" ] && \
+  docker exec -it ${CONTAINER_NAME} bash -c "${CFG_SCRIPTS_DIR}/pre-connect.sh $*"
+
+docker exec -it ${CONTAINER_NAME} ssh "$@"
