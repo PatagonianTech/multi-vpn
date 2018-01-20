@@ -19,31 +19,32 @@ VPN_FILE_NAME="client.ovpn"
   echo "vpn-$k"
 }
 
-[ ! $IS_BUILD_SCRIPT ] && \
+if [ ! $IS_BUILD_SCRIPT ]; then
   [ -z "$(docker images -q ${CFG_DOCKER_IMG_NAME})" ] && \
   "${BASE_DIR}/.src/build.sh"
 
-if [ -z "$1" ]; then
-  cat <<EOF
+  if [ -z "$1" ]; then
+    cat <<EOF
 Usage:
   $BASE_SOURCE CONFIG_DIR
       CONFIG_DIR   VPN configuration directory.
 EOF
 
-  exit 1
-else
-  CONFIG_DIR="$1" ; shift
-  CONFIG_EXTRA="$@"
+    exit 1
+  else
+    CONFIG_DIR="$1" ; shift
+    CONFIG_EXTRA="$@"
 
-  if [[ "$CONFIG_DIR" =~ ^.*/.*$ ]]; then
-    VPN_FILE_NAME="$(echo "$CONFIG_DIR" | sed 's/^.*\///')"
-    CONFIG_DIR="$(echo "$CONFIG_DIR" | sed 's/\/.*$//')"
+    if [[ "$CONFIG_DIR" =~ ^.*/.*$ ]]; then
+      VPN_FILE_NAME="$(echo "$CONFIG_DIR" | sed 's/^.*\///')"
+      CONFIG_DIR="$(echo "$CONFIG_DIR" | sed 's/\/.*$//')"
+    fi
+
+    CONFIG_PATH="${BASE_DIR}/${CONFIG_DIR}"
+
+    [ -d "${CONFIG_PATH}" ] || @error "Invalid CONFIG_DIR: ${CONFIG_DIR}"
+
+    VPN_FILE_PATH="${CONFIG_PATH}/${VPN_FILE_NAME}"
+    CONTAINER_NAME="$(@dockerContainerName "${CONFIG_DIR}-${VPN_FILE_NAME}")"
   fi
-
-  CONFIG_PATH="${BASE_DIR}/${CONFIG_DIR}"
-
-  [ -d "${CONFIG_PATH}" ] || @error "Invalid CONFIG_DIR: ${CONFIG_DIR}"
-
-  VPN_FILE_PATH="${CONFIG_PATH}/${VPN_FILE_NAME}"
-  CONTAINER_NAME="$(@dockerContainerName "${CONFIG_DIR}-${VPN_FILE_NAME}")"
 fi
