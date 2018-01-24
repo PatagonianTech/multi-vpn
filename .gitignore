@@ -1,6 +1,3 @@
-/*
-!/.src
-!/.gitignore
-!/*.sh
-!/*.md
-!/LICENSE
+/**/.bash_*
+/**/ff_profile
+/**/vpndeveloper
