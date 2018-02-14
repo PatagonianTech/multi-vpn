@@ -65,7 +65,26 @@ ROOT/
     ssh/ [OPTIONAL]
       KEY_NAME.pem [OPTIONAL]
       config [OPTIONAL]
+    scripts/ [OPTIONAL]
+      pre-vpn-connect.sh [OPTIONAL]
+      pre-connect.sh [OPTIONAL]
 ```
+
+#### ssh/config
+
+_SSH_ config file.
+
+#### ssh/KEY_NAME.pem
+
+_PEM_ file required to connect to server.
+
+#### scripts/pre-vpn-connect.sh
+
+_Script_ to run into container **before** connect to _VPN_.
+
+#### scripts/pre-connect.sh
+
+_Script_ to run into container **after** connected to _VPN_ and **before** connect to client (_ssh_ or _browser_).
 
 ### Example
 
@@ -73,6 +92,9 @@ ROOT/
 ROOT/
   vpn-1/
     client.ovpn
+    scripts/
+      pre-vpn-connect.sh
+      pre-connect.sh
     ssh/
       key1.pem
       config

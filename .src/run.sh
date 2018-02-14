@@ -9,4 +9,6 @@ fi
 
 set -x
 
+[ -f /vpn/scripts/$CFG_SCRIPT_PRE_VPN_CONNECT ] && /vpn/scripts/$CFG_SCRIPT_PRE_VPN_CONNECT
+
 openvpn --config $1

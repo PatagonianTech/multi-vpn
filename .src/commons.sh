@@ -4,6 +4,11 @@ CFG_DOCKER_HOST_LOCK_VOLUME="/tmp/patagoniantech.vpn.host-lock"
 CFG_SCRIPTS_DIR="scripts"
 VPN_FILE_NAME="client.ovpn"
 
+# On VPN connect
+CFG_SCRIPT_PRE_VPN_CONNECT="pre-vpn-connect.sh"
+# On SSH or Browser connect
+CFG_SCRIPT_PRE_CONNECT="pre-connect.sh"
+
 @warn() {
   echo "# $*" >&2
 }

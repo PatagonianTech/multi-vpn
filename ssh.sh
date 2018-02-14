@@ -32,7 +32,7 @@ fi
 . "${BASE_DIR}/.src/commons.sh"
 
 # Scripts
-[ -f "${CONFIG_PATH}/${CFG_SCRIPTS_DIR}/pre-connect.sh" ] && \
-  docker exec -it ${CONTAINER_NAME} bash -c "${CFG_SCRIPTS_DIR}/pre-connect.sh $*"
+[ -f "${CONFIG_PATH}/${CFG_SCRIPTS_DIR}/${CFG_SCRIPT_PRE_CONNECT}" ] && \
+  docker exec -it ${CONTAINER_NAME} bash -c "${CFG_SCRIPTS_DIR}/${CFG_SCRIPT_PRE_CONNECT} $*"
 
 docker exec -it ${CONTAINER_NAME} ssh "$@"
