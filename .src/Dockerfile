@@ -15,17 +15,21 @@ RUN apt-get autoremove \
     && apt-get clean && apt-get autoclean \
     && rm -rf /var/lib/apt/lists/*
 
-ARG HOST_USER
-ARG HOST_GROUP
+ARG HOST_USER=1000
+ARG HOST_GROUP=1000
 
-RUN mkdir -p /home/vpndeveloper && \
-    echo "vpndeveloper:x:${HOST_USER}:${HOST_GROUP}:Developer,,,:/home/vpndeveloper:/bin/bash" >> /etc/passwd && \
+ENV VPNDEV_HOME='/opt/vpndeveloper'
+ENV HOST_USER=${HOST_USER}
+ENV HOST_GROUP=${HOST_GROUP}
+
+RUN mkdir -p ${VPNDEV_HOME} && \
+    echo "vpndeveloper:x:${HOST_USER}:${HOST_GROUP}:Developer,,,:${VPNDEV_HOME}:/bin/bash" >> /etc/passwd && \
     echo "vpndeveloper:x:${HOST_USER}:" >> /etc/group && \
     echo "vpndeveloper ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/vpndeveloper && \
     chmod 0440 /etc/sudoers.d/vpndeveloper && \
-    chown vpndeveloper:vpndeveloper -R /home/vpndeveloper
+    chown vpndeveloper:vpndeveloper -R ${VPNDEV_HOME}
 
-VOLUME /home/vpndeveloper
+VOLUME ${VPNDEV_HOME}
 COPY run.sh /run.sh
 COPY vpndeveloper.sh /vpndeveloper.sh
 

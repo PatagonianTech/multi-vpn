@@ -42,10 +42,13 @@ file_bash_history="${CONFIG_PATH}/.bash_history"
 touch "${file_bash_history}"
 
 # Scripts
-[ -f "${CONFIG_PATH}/${CFG_SCRIPTS_DIR}/${CFG_SCRIPT_PRE_CONNECT}" ] && \
-  chmod a+x "${CFG_SCRIPTS_DIR}/${CFG_SCRIPT_PRE_CONNECT}"
-[ -f "${CONFIG_PATH}/${CFG_SCRIPTS_DIR}/${CFG_SCRIPT_PRE_VPN_CONNECT}" ] && \
-  chmod a+x "${CFG_SCRIPTS_DIR}/${CFG_SCRIPT_PRE_VPN_CONNECT}"
+if [ -f "${CONFIG_PATH}/${CFG_SCRIPTS_DIR}/${CFG_SCRIPT_PRE_CONNECT}" ]; then
+  chmod a+x "${CONFIG_PATH}/${CFG_SCRIPTS_DIR}/${CFG_SCRIPT_PRE_CONNECT}"
+fi
+
+if [ -f "${CONFIG_PATH}/${CFG_SCRIPTS_DIR}/${CFG_SCRIPT_PRE_VPN_CONNECT}" ]; then
+  chmod a+x "${CONFIG_PATH}/${CFG_SCRIPTS_DIR}/${CFG_SCRIPT_PRE_VPN_CONNECT}"
+fi
 
 set -x
 
@@ -54,13 +57,13 @@ docker run -it --rm --privileged $docker_custom_cfg \
   -v "/var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket" \
   -v "/home:/home" \
   -v "/mnt:/mnt" \
-  -v "$BASE_DIR/.src/run.sh:/run.sh:ro" \
-  -v "$BASE_DIR/.src/vpndeveloper.sh:/vpndeveloper.sh:ro" \
+  -v "${BASE_DIR}/.src/run.sh:/run.sh:ro" \
+  -v "${BASE_DIR}/.src/vpndeveloper.sh:/vpndeveloper.sh:ro" \
   -v "${file_bash_history}:/root/.bash_history" \
-  -v "${CONFIG_PATH}/vpndeveloper:/home/vpndeveloper" \
+  -v "${VPNDEV_HOME}:/opt/vpndeveloper" \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
-  -e CFG_SCRIPT_PRE_CONNECT=$CFG_SCRIPT_PRE_CONNECT \
-  -e CFG_SCRIPT_PRE_VPN_CONNECT=$CFG_SCRIPT_PRE_VPN_CONNECT \
+  -e CFG_SCRIPT_PRE_CONNECT=${CFG_SCRIPT_PRE_CONNECT} \
+  -e CFG_SCRIPT_PRE_VPN_CONNECT=${CFG_SCRIPT_PRE_VPN_CONNECT} \
   -e DISPLAY=$DISPLAY \
   --name ${CONTAINER_NAME} \
   --hostname ${CONTAINER_NAME} \

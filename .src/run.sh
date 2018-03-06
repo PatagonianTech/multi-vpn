@@ -1,10 +1,24 @@
 #!/usr/bin/env bash
 
-if [ ! -d $HOME/.ssh ] && [ -d /vpn/ssh ] ; then
-  cp -r /vpn/ssh $HOME/.ssh
-  chown -R 0:0 $HOME/.ssh
-  chmod -R 600 $HOME/.ssh
-  chmod 700 $HOME/.ssh
+set -e
+
+if [ -d /vpn/ssh ]; then
+  prepare_ssh() {
+    local ug="$1"
+    local p="$2/.ssh"
+    [ -d "${p}" ] && rm -rf "${p}"
+    mkdir "${p}"
+    cp -r /vpn/ssh/* "${p}"
+    chown -R ${ug} "${p}"
+    chmod -R 600 "${p}"
+    chmod 700 "${p}"
+  }
+
+  prepare_ssh 0:0 $HOME
+
+  chown -R vpndeveloper:vpndeveloper ${VPNDEV_HOME}
+  chmod 777 ${VPNDEV_HOME}
+  prepare_ssh vpndeveloper:vpndeveloper $VPNDEV_HOME
 fi
 
 set -x
