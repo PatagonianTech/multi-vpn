@@ -2,54 +2,35 @@
 
 BASE_SOURCE="$0"
 BASE_DIR="$(cd "$(dirname "$BASE_SOURCE")" ; pwd)"
-
-if [ -z "$1" ]; then
-  cat <<EOF
-Usage:
-  $BASE_SOURCE CONFIG_DIR[/VPN_FILE_NAME] [-net]
-      CONFIG_DIR      VPN configuration directory
-      VPN_FILE_NAME   OpenVPN file. Default: client.ovpn
-      -net            If present, connect host network to VPN
-
-Examples:
-  $BASE_SOURCE arg-prod
-  $BASE_SOURCE arg-prod/region2.ovpn
-  $BASE_SOURCE arg-qa -net
-  $BASE_SOURCE arg-qa/region3.ovpn -net
-EOF
-
-  exit 1
-fi
-
 . "${BASE_DIR}/.src/commons.sh"
+
+# Pre
 [ -f "${VPN_FILE_PATH}" ] || @error "${VPN_FILE_PATH} not found"
 docker_custom_cfg=''
 
-if [[ "$CONFIG_EXTRA" == *"-net"* ]]; then
+if $OPTARG_NET; then
   echo "# CONNECTING HOST NETWORK TO VPN..."
 
-  if [ "$(docker ps -a -q --filter volume=${CFG_DOCKER_HOST_LOCK_VOLUME})" ]
-    then
-      @error "You can connect to onaly one VPN network to host at the same time"
-    fi
+  [ "$(docker ps -a -q --filter volume=${CFG_DOCKER_HOST_LOCK_VOLUME})" ] && \
+    @error "You can connect to onaly one VPN network to host at the same time"
 
   sleep 2
   docker_custom_cfg="$docker_custom_cfg --net=host"
   docker_custom_cfg="$docker_custom_cfg -v ${CFG_DOCKER_HOST_LOCK_VOLUME}:/tmp/vpn.host.lock"
 fi
 
+# Root history
 file_bash_history="${CONFIG_PATH}/.bash_history"
 touch "${file_bash_history}"
 
 # Scripts
-if [ -f "${CONFIG_PATH}/${CFG_SCRIPTS_DIR}/${CFG_SCRIPT_PRE_CONNECT}" ]; then
+[ -f "${CONFIG_PATH}/${CFG_SCRIPTS_DIR}/${CFG_SCRIPT_PRE_CONNECT}" ] && \
   chmod a+x "${CONFIG_PATH}/${CFG_SCRIPTS_DIR}/${CFG_SCRIPT_PRE_CONNECT}"
-fi
 
-if [ -f "${CONFIG_PATH}/${CFG_SCRIPTS_DIR}/${CFG_SCRIPT_PRE_VPN_CONNECT}" ]; then
+[ -f "${CONFIG_PATH}/${CFG_SCRIPTS_DIR}/${CFG_SCRIPT_PRE_VPN_CONNECT}" ] && \
   chmod a+x "${CONFIG_PATH}/${CFG_SCRIPTS_DIR}/${CFG_SCRIPT_PRE_VPN_CONNECT}"
-fi
 
+# Main
 set -x
 
 docker run -it --rm --privileged $docker_custom_cfg \
