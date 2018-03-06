@@ -51,9 +51,8 @@ EOF
 
     [ -d "${CONFIG_PATH}" ] || @error "Invalid CONFIG_DIR: ${CONFIG_DIR}"
 
-    VPNDEV_HOME="${CONFIG_PATH}/vpndeveloper"
+    VPNDEV_HOME="${CONFIG_PATH}/.vpndeveloper"
     VPN_FILE_PATH="${CONFIG_PATH}/${VPN_FILE_NAME}"
     CONTAINER_NAME="$(@dockerContainerName "${CONFIG_DIR}-${VPN_FILE_NAME}")"
   fi
 fi
-
