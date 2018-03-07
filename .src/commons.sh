@@ -65,7 +65,7 @@ Examples:
 EOF
     exit 1
   else
-    CONFIG_DIR="$1" ; shift
+    CONFIG_DIR="$1" ; shift ; CONFIG_DIR="${CONFIG_DIR%/}" ; CONFIG_DIR="${CONFIG_DIR#./}"
     CONFIG_FULL="$CONFIG_DIR"
 
     if [[ "$CONFIG_DIR" =~ ^.*/.*$ ]]; then
