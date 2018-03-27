@@ -32,7 +32,6 @@ RUN mkdir -p ${VPNDEV_HOME} && \
 VOLUME ${VPNDEV_HOME}
 COPY run.sh /run.sh
 COPY vpndeveloper.sh /vpndeveloper.sh
-COPY scp.sh /scp.sh
 
 WORKDIR /vpn
 ENTRYPOINT ["/run.sh"]
