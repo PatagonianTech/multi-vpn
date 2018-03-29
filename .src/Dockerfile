@@ -3,7 +3,8 @@ FROM ubuntu:16.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y \
-  openvpn ssh net-tools iptables iputils-ping net-tools \
+  openvpn ssh ssh-askpass \
+  net-tools iptables iputils-ping net-tools \
   firefox sudo
 
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
