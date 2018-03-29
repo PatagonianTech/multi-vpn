@@ -15,19 +15,19 @@ On first use, the `docker image` will be builded.
 ### Connect to VPN
 
 ```bash
-./connect.sh my-vpn
+./vpn-connect my-vpn
 ```
 
 ### Connect to Server (in the VPN)
 
 ```bash
-./ssh.sh my-vpn server1
+./vpn-ssh my-vpn server1
 ```
 
 ### Open `bash` terminal with VPN connection
 
 ```bash
-./bash.sh my-vpn
+./vpn-bash my-vpn
   scp /home/myuser/file.txt server2:/tmp/file.txt
   ssh server1
 ```
@@ -39,7 +39,7 @@ Connect host network to VPN network.
 **You can connect to onaly one VPN network to host at the same time.**
 
 ```bash
-./connect.sh my-vpn -net
+./vpn-connect my-vpn -net
 ```
 
 ### Use a Browser into VPN
@@ -47,13 +47,13 @@ Connect host network to VPN network.
 #### Firefox
 
 ```bash
-./firefox.sh my-vpn
+./vpn-firefox my-vpn
 ```
 
 #### Google Chrome
 
 ```bash
-./chrome.sh my-vpn
+./vpn-chrome my-vpn
 ```
 
 ## Structure
@@ -66,8 +66,8 @@ ROOT/
       KEY_NAME.pem [OPTIONAL]
       config [OPTIONAL]
     scripts/ [OPTIONAL]
-      pre-vpn-connect.sh [OPTIONAL]
-      pre-connect.sh [OPTIONAL]
+      pre-vpn-vpn-connect [OPTIONAL]
+      pre-vpn-connect [OPTIONAL]
 ```
 
 #### ssh/config
@@ -78,11 +78,11 @@ _SSH_ config file.
 
 _PEM_ file required to connect to server.
 
-#### scripts/pre-vpn-connect.sh
+#### scripts/pre-vpn-vpn-connect
 
 _Script_ to run into container **before** connect to _VPN_.
 
-#### scripts/pre-connect.sh
+#### scripts/pre-vpn-connect
 
 _Script_ to run into container **after** connected to _VPN_ and **before** connect to client (_ssh_ or _browser_).
 
@@ -93,8 +93,8 @@ ROOT/
   vpn-1/
     client.ovpn
     scripts/
-      pre-vpn-connect.sh
-      pre-connect.sh
+      pre-vpn-vpn-connect
+      pre-vpn-connect
     ssh/
       key1.pem
       config
@@ -113,16 +113,16 @@ ROOT/
       config
   vpn-5/
     client.ovpn
-  connect.sh
-  debug.sh
-  ssh.sh
+  vpn-connect
+  vpn-*
+  vpn-ssh
 ```
 
 First, connect to **VPN**:
 
 ```bash
 # One conection by terminal
-./connect.sh vpn-1
+./vpn-connect vpn-1
 ```
 
 To disconect, only press `CTRL+c`.
@@ -130,10 +130,10 @@ To disconect, only press `CTRL+c`.
 Next, connect in new terminal to each server in the **VPN**:
 
 ```bash
-./ssh.sh vpn-1 server-in-config-file-1
-./ssh.sh vpn-1 server-in-config-file-2 bash
-./ssh.sh vpn-1 usr@10.0.0.5
-./ssh.sh vpn-1 -p 2022 usr@10.0.0.5
+./vpn-ssh vpn-1 server-in-config-file-1
+./vpn-ssh vpn-1 server-in-config-file-2 bash
+./vpn-ssh vpn-1 usr@10.0.0.5
+./vpn-ssh vpn-1 -p 2022 usr@10.0.0.5
 ```
 
 ## TODO
