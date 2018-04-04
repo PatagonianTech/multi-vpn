@@ -8,4 +8,5 @@ BASE_DIR="$(cd "$(dirname "$BASE_SOURCE")" ; pwd)"
   docker exec -it ${CONTAINER_NAME} bash -c "${CFG_SCRIPTS_DIR}/${CFG_SCRIPT_PRE_CONNECT} $*"
 
 set -x
-docker exec -it ${CONTAINER_NAME} su vpndeveloper /vpndeveloper.sh google-chrome-stable
+# https://github.com/karma-runner/karma-chrome-launcher/issues/83#issuecomment-370755831
+docker exec -it ${CONTAINER_NAME} su vpndeveloper /vpndeveloper.sh bash -c 'google-chrome-stable --no-sandbox --disable-gpu'
