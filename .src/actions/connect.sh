@@ -23,9 +23,7 @@ fi
 file_bash_history="${CONFIG_PATH}/.bash_history"
 touch "${file_bash_history}"
 
-# Scripts
-[ -f "${CONFIG_PATH}/${CFG_SCRIPTS_DIR}/${CFG_SCRIPT_PRE_CONNECT}" ] && \
-  chmod a+x "${CONFIG_PATH}/${CFG_SCRIPTS_DIR}/${CFG_SCRIPT_PRE_CONNECT}"
+@dockerPreConnect
 
 [ -f "${CONFIG_PATH}/${CFG_SCRIPTS_DIR}/${CFG_SCRIPT_PRE_VPN_CONNECT}" ] && \
   chmod a+x "${CONFIG_PATH}/${CFG_SCRIPTS_DIR}/${CFG_SCRIPT_PRE_VPN_CONNECT}"
