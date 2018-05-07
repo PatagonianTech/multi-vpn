@@ -1,7 +1,8 @@
 ## {docker build params}
 ## Build Docker image.
 ##
-## {docker build params}: `docker build` parameters.
+## Params:
+##   {docker build params}: `docker build` parameters.
 
 cd "${RESOURCES_PATH}"
 

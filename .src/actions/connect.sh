@@ -1,15 +1,20 @@
-#!/usr/bin/env bash
+## config_dir
+## Connect to VPN.
+##
+## Params:
+##   config_dir: Configuration directory.
+##
+## Args:
+##   -n  Connect host network to VPN.
 
-BASE_SOURCE="$0"
-BASE_DIR="$(cd "$(dirname "$BASE_SOURCE")" ; pwd)"
-. "${BASE_DIR}/.src/commons.sh"
+. "${RESOURCES_PATH}/bootstrap.sh"
 
 # Pre
 [ -f "${VPN_FILE_PATH}" ] || @error "${VPN_FILE_PATH} not found"
 docker_custom_cfg=''
 
 if $OPTARG_NET; then
-  echo "# CONNECTING HOST NETWORK TO VPN..."
+  @print "CONNECTING HOST NETWORK TO VPN..."
 
   [ "$(docker ps -a -q --filter volume=${CFG_DOCKER_HOST_LOCK_VOLUME})" ] && \
     @error "You can connect to onaly one VPN network to host at the same time"
@@ -23,23 +28,22 @@ fi
 file_bash_history="${CONFIG_PATH}/.bash_history"
 touch "${file_bash_history}"
 
-@dockerPreConnect
+dockerPreConnect "$@"
 
 [ -f "${CONFIG_PATH}/${CFG_SCRIPTS_DIR}/${CFG_SCRIPT_PRE_VPN_CONNECT}" ] && \
   chmod a+x "${CONFIG_PATH}/${CFG_SCRIPTS_DIR}/${CFG_SCRIPT_PRE_VPN_CONNECT}"
 
 # Main
-set -x
 
-docker run -it --rm --privileged $docker_custom_cfg \
+@cmd-log docker run -it --rm --privileged $docker_custom_cfg \
   -v "${CONFIG_PATH}:/vpn:ro" \
   -v "/var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket" \
   -v "/home:/home" \
   -v "/mnt:/mnt" \
   -v "/media:/media" \
-  -v "${BASE_DIR}/.src/run.sh:/run.sh:ro" \
-  -v "${BASE_DIR}/.src/scp.sh:/scp.sh:ro" \
-  -v "${BASE_DIR}/.src/vpndeveloper.sh:/vpndeveloper.sh:ro" \
+  -v "${RESOURCES_PATH}/run.sh:/run.sh:ro" \
+  -v "${RESOURCES_PATH}/scp.sh:/scp.sh:ro" \
+  -v "${RESOURCES_PATH}/vpndeveloper.sh:/vpndeveloper.sh:ro" \
   -v "${file_bash_history}:/root/.bash_history" \
   -v "${VPNDEV_HOME}:/opt/vpndeveloper" \
   -v /tmp/.X11-unix:/tmp/.X11-unix \

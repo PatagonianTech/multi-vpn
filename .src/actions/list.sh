@@ -1,7 +1,8 @@
 ## config_dir
 ## List configured SSH servers.
 ##
-## config_dir: Configuration directory.
+## Params:
+##   config_dir: Configuration directory.
 
 . "${RESOURCES_PATH}/bootstrap.sh"
 

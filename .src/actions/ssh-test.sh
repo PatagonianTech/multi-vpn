@@ -1,7 +1,8 @@
 ## config_dir [ssh_arguments]
 ## Verify SSH connection into VPN connected container.
 ##
-## config_dir: Configuration directory.
+## Params:
+##   config_dir: Configuration directory.
 
 . "${RESOURCES_PATH}/bootstrap.sh"
 
@@ -22,8 +23,7 @@ if [ -f "$SSH_CONFIG_PATH" ]; then
 
       (
         # Test
-        set -x
-        docker exec -it ${CONTAINER_NAME} \
+        @cmd-log docker exec -it ${CONTAINER_NAME} \
           ssh $c echo "Connected to \$(id -un)@$c"
       ) && {
         # Ok

@@ -1,8 +1,9 @@
 ## config_dir
 ## Connect to VPN connected container.
 ##
-## config_dir: Configuration directory.
+## Params:
+##   config_dir: Configuration directory.
 
 . "${RESOURCES_PATH}/bootstrap.sh"
-set -x
-docker exec -it ${CONTAINER_NAME} su vpndeveloper
+
+@cmd-log docker exec -it ${CONTAINER_NAME} su vpndeveloper

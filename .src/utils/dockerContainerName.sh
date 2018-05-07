@@ -1,7 +1,8 @@
 ## *
 ## Get Docker container name.
 ##
-## *: Key
+## Params:
+##   *: Key
 ## Out: Docker container name.
 
 local k="$*"
