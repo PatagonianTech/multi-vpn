@@ -1,5 +1,6 @@
 ## config_dir ssh_arguments*
 ## Connect to VPN connected container.
+## Exec "list" to show configured servers.
 ##
 ## Params:
 ##   config_dir:     Configuration directory.
