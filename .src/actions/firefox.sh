@@ -8,5 +8,7 @@
 
 dockerPreConnect "$@"
 
-@cmd-log docker exec -it ${CONTAINER_NAME} su vpndeveloper /vpndeveloper.sh \
-  firefox
+set -x
+  docker exec -it ${CONTAINER_NAME} su vpndeveloper /vpndeveloper.sh \
+    firefox
+set +x

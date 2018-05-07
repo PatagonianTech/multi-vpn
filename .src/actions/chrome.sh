@@ -10,5 +10,7 @@
 
 dockerPreConnect "$@"
 
-@cmd-log docker exec -it ${CONTAINER_NAME} su vpndeveloper /vpndeveloper.sh \
-  bash -c 'google-chrome-stable --ignore-certificate-errors --disable-gpu'
+set -x
+  docker exec -it ${CONTAINER_NAME} su vpndeveloper /vpndeveloper.sh \
+    bash -c 'google-chrome-stable --ignore-certificate-errors --disable-gpu'
+set +x

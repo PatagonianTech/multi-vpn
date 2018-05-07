@@ -6,4 +6,6 @@
 
 . "${RESOURCES_PATH}/bootstrap.sh"
 
-@cmd-log docker exec -it ${CONTAINER_NAME} su vpndeveloper
+set -x
+  docker exec -it ${CONTAINER_NAME} su vpndeveloper
+set +x

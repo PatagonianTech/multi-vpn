@@ -9,4 +9,6 @@
 
 dockerPreConnect "$@"
 
-@cmd-log docker exec -it ${CONTAINER_NAME} su vpndeveloper /scp.sh "$(pwd)" "$@"
+set -x
+  docker exec -it ${CONTAINER_NAME} su vpndeveloper /scp.sh "$(pwd)" "$@"
+set +x

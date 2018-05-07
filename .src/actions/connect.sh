@@ -35,21 +35,23 @@ dockerPreConnect "$@"
 
 # Main
 
-@cmd-log docker run -it --rm --privileged $docker_custom_cfg \
-  -v "${CONFIG_PATH}:/vpn:ro" \
-  -v "/var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket" \
-  -v "/home:/home" \
-  -v "/mnt:/mnt" \
-  -v "/media:/media" \
-  -v "${RESOURCES_PATH}/run.sh:/run.sh:ro" \
-  -v "${RESOURCES_PATH}/scp.sh:/scp.sh:ro" \
-  -v "${RESOURCES_PATH}/vpndeveloper.sh:/vpndeveloper.sh:ro" \
-  -v "${file_bash_history}:/root/.bash_history" \
-  -v "${VPNDEV_HOME}:/opt/vpndeveloper" \
-  -v /tmp/.X11-unix:/tmp/.X11-unix \
-  -e CFG_SCRIPT_PRE_CONNECT=${CFG_SCRIPT_PRE_CONNECT} \
-  -e CFG_SCRIPT_PRE_VPN_CONNECT=${CFG_SCRIPT_PRE_VPN_CONNECT} \
-  -e DISPLAY=$DISPLAY \
-  --name ${CONTAINER_NAME} \
-  --hostname ${CONTAINER_NAME} \
-  ${CFG_DOCKER_IMG_NAME} ${VPN_FILE_NAME}
+set -x
+  docker run -it --rm --privileged $docker_custom_cfg \
+    -v "${CONFIG_PATH}:/vpn:ro" \
+    -v "/var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket" \
+    -v "/home:/home" \
+    -v "/mnt:/mnt" \
+    -v "/media:/media" \
+    -v "${RESOURCES_PATH}/run.sh:/run.sh:ro" \
+    -v "${RESOURCES_PATH}/scp.sh:/scp.sh:ro" \
+    -v "${RESOURCES_PATH}/vpndeveloper.sh:/vpndeveloper.sh:ro" \
+    -v "${file_bash_history}:/root/.bash_history" \
+    -v "${VPNDEV_HOME}:/opt/vpndeveloper" \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -e CFG_SCRIPT_PRE_CONNECT=${CFG_SCRIPT_PRE_CONNECT} \
+    -e CFG_SCRIPT_PRE_VPN_CONNECT=${CFG_SCRIPT_PRE_VPN_CONNECT} \
+    -e DISPLAY=$DISPLAY \
+    --name ${CONTAINER_NAME} \
+    --hostname ${CONTAINER_NAME} \
+    ${CFG_DOCKER_IMG_NAME} ${VPN_FILE_NAME}
+set +x
