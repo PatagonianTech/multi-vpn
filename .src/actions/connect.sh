@@ -35,7 +35,7 @@ dockerPreConnect "$@"
 
 # Main
 
-set -x
+( set -x
   docker run -it --rm --privileged $docker_custom_cfg \
     -v "${CONFIG_PATH}:/vpn:ro" \
     -v "/var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket" \
@@ -54,4 +54,4 @@ set -x
     --name ${CONTAINER_NAME} \
     --hostname ${CONTAINER_NAME} \
     ${CFG_DOCKER_IMG_NAME} ${VPN_FILE_NAME}
-set +x
+)

@@ -24,9 +24,8 @@ if [ -f "$SSH_CONFIG_PATH" ]; then
       (
         # Test
         set -x
-          docker exec -it ${CONTAINER_NAME} \
-            ssh $c echo "Connected to \$(id -un)@$c"
-        set +x
+        docker exec -it ${CONTAINER_NAME} \
+          ssh $c echo "Connected to \$(id -un)@$c"
       ) && {
         # Ok
         cok=$((cok+1))

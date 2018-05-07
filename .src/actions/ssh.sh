@@ -9,6 +9,6 @@
 
 dockerPreConnect "$@"
 
-set -x
+( set -x
   docker exec -it ${CONTAINER_NAME} ssh "$@"
-set +x
+)
