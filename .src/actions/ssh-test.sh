@@ -18,8 +18,8 @@ if [ -f "$SSH_CONFIG_PATH" ]; then
     for c in ${configs[@]}; do
       ctotal=$((ctotal+1))
 
-      @print-colorized-line-char
-      @print "# Progress: $ctotal of ${#configs[@]}..."
+      @print-line
+      @print "Progress: $ctotal of ${#configs[@]}..."
 
       (
         # Test
@@ -29,15 +29,15 @@ if [ -f "$SSH_CONFIG_PATH" ]; then
         # Ok
         cok=$((cok+1))
         @print
-        @print '# OK'
+        @print 'OK'
       } || {
         # Error
         @print
-        @print '# ERROR'
+        @print 'ERROR'
       }
     done
 
-    @print-colorized-line-char
+    @print-line
     @print
     @print "Result: $cok connected of $ctotal"
   fi
