@@ -11,7 +11,7 @@ local command="$@"
 [ ! -z "$command" ] || @error 'command* is required'
 
 if [ -f "$SSH_CONFIG_PATH" ]; then
-  configs=($(grep -E '^Host\s+[a-zA-Z0-9]' "$SSH_CONFIG_PATH" | sed -E 's/Host\s+//g'))
+  local configs=($(sshServersList))
 
   if [ -z "$configs" ]; then
     @error "$SSH_CONFIG_PATH > Hosts not found"
