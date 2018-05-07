@@ -18,7 +18,7 @@ if [ -f "$SSH_CONFIG_PATH" ]; then
     for c in ${configs[@]}; do
       ctotal=$((ctotal+1))
 
-      @print-line
+      @print-line 120 '#'
       @print "Progress: $ctotal of ${#configs[@]}..."
 
       (
@@ -37,7 +37,7 @@ if [ -f "$SSH_CONFIG_PATH" ]; then
       }
     done
 
-    @print-line
+    @print-line 120 '#'
     @print
     @print "Result: $cok connected of $ctotal"
   fi
