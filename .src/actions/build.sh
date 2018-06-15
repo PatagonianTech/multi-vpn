@@ -4,7 +4,7 @@
 ## Params:
 ##   {docker build params}: `docker build` parameters.
 
-cd "${RESOURCES_PATH}"
+cd "${BX_RESOURCES_PATH}"
 
 docker build \
   -t ${CFG_DOCKER_IMG_NAME} \

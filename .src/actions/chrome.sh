@@ -6,8 +6,6 @@
 
 # https://github.com/karma-runner/karma-chrome-launcher/issues/83#issuecomment-370755831
 
-. "${RESOURCES_PATH}/bootstrap.sh"
-
 dockerPreConnect "$@"
 
 ( set -x

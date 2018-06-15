@@ -6,8 +6,6 @@
 ##   config_dir:     Configuration directory.
 ##   ssh_arguments*: Arguments to use in 'ssh' command.
 
-. "${RESOURCES_PATH}/bootstrap.sh"
-
 dockerPreConnect "$@"
 
 ( set -x

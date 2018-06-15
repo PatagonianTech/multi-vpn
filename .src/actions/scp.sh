@@ -5,8 +5,6 @@
 ##   config_dir:     Configuration directory.
 ##   scp_arguments*: Arguments to use in 'scp' command.
 
-. "${RESOURCES_PATH}/bootstrap.sh"
-
 dockerPreConnect "$@"
 
 ( set -x

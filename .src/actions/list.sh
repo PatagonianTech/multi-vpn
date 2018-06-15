@@ -5,9 +5,7 @@
 ## Params:
 ##   config_dir: Configuration directory.
 
-. "${RESOURCES_PATH}/bootstrap.sh"
-
-if [ -f "$SSH_CONFIG_PATH" ]; then
+if [ -f "${SSH_CONFIG_PATH}" ]; then
   local configs=($(sshServersList))
   @print "Current configured SSH Servers list (to use as SSH_SERVER):"
 
@@ -15,5 +13,5 @@ if [ -f "$SSH_CONFIG_PATH" ]; then
     @print "  - $(@style color:green)$c"
   done
 else
-  @error "$SSH_CONFIG_PATH not found"
+  @error "${SSH_CONFIG_PATH} not found"
 fi

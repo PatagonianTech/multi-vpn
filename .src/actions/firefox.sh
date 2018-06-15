@@ -4,8 +4,6 @@
 ## Params:
 ##   config_dir: Configuration directory.
 
-. "${RESOURCES_PATH}/bootstrap.sh"
-
 dockerPreConnect "$@"
 
 ( set -x

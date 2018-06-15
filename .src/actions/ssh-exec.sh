@@ -5,30 +5,29 @@
 ##   config_dir: Configuration directory.
 ##   command*:   Command to execute.
 
-. "${RESOURCES_PATH}/bootstrap.sh"
 local command="$@"
 
 [ ! -z "$command" ] || @error 'command* is required'
 
-if [ -f "$SSH_CONFIG_PATH" ]; then
+if [ -f "${SSH_CONFIG_PATH}" ]; then
   local configs=($(sshServersList))
 
   if [ -z "$configs" ]; then
-    @error "$SSH_CONFIG_PATH > Hosts not found"
+    @error "${SSH_CONFIG_PATH} > Hosts not found"
   else
-    ctotal=0
-    cok=0
+    local ctotal=0
+    local cok=0
 
     for c in ${configs[@]}; do
       ctotal=$((ctotal+1))
 
       @print-line 120 '#'
-      @print "Progress: $ctotal of ${#configs[@]}..."
+      @print "Progress: ${ctotal} of ${#configs[@]}..."
 
       (
         # Test
         set -x
-        docker exec -it ${CONTAINER_NAME} ssh $c "$command"
+        docker exec -it ${CONTAINER_NAME} ssh ${c} "${command}"
       ) && {
         # Ok
         cok=$((cok+1))
@@ -43,8 +42,8 @@ if [ -f "$SSH_CONFIG_PATH" ]; then
 
     @print-line 120 '#'
     @print
-    @print "Result: $cok connected of $ctotal"
+    @print "Result: ${cok} connected of ${ctotal}"
   fi
 else
-  @error "$SSH_CONFIG_PATH not defined"
+  @error "${SSH_CONFIG_PATH} not defined"
 fi
