@@ -16,7 +16,9 @@ if [ "${BASHX_ACTION}" != 'build' ]; then
   done
   shift $((OPTIND - 1))
 
-  CONFIG_DIR="$1" ; shift ; CONFIG_DIR="${CONFIG_DIR%/}" ; CONFIG_DIR="${CONFIG_DIR#./}"
+  CONFIG_DIR="$1" ; shift
+  CONFIG_DIR="${CONFIG_DIR%/}"
+  CONFIG_DIR="${CONFIG_DIR#./}"
   [ ! -z "$CONFIG_DIR" ] || @error "CONFIG_DIR is required"
 
   [ -z "$(docker images -q ${CFG_DOCKER_IMG_NAME})" ] && @Actions.build
